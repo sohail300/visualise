@@ -14,9 +14,11 @@ export default function HeroSection() {
         text-sm sm:text-base max-sm:mb-2 text-white transition-all ease-in 
         hover:cursor-pointer hover:bg-neutral-200 dark:border-white/5 
         dark:bg-neutral-900 dark:hover:bg-neutral-800"
-        style={{
-          "--shiny-width": "200%",
-        }}
+        style={
+          {
+            "--shiny-width": "200%",
+          } as React.CSSProperties
+        }
       >
         <p
           className="mx-auto max-w-md text-neutral-600/70 dark:text-neutral-400/70 

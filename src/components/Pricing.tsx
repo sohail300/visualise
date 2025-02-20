@@ -1,25 +1,7 @@
-"use client";
-
 import React from "react";
-import { motion } from "framer-motion";
 import { Card, CardContent } from "./ui/card";
 
 const Pricing = () => {
-  const featureAnimation = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-  };
-
-  const containerAnimation = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  };
-
   return (
     <div id="pricing" className="py-12">
       <div className="container px-4 w-3/4 mx-auto ">

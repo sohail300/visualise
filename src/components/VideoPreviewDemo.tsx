@@ -1,16 +1,9 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
-import { Upload, ArrowRight, CheckCircle2 } from "lucide-react";
-import { Instagram, Facebook, Linkedin, Twitter, Youtube } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const Demo = () => {
-  const featureAnimation = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-  };
-
   return (
     <div id="faq" className="pb-12 border">
       <div className="container px-4 w-3/4 mx-auto">
