@@ -8,6 +8,7 @@ import axios from "axios";
 import { CldImage } from "next-cloudinary";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useToast } from "@/hooks/use-toast";
+import { MAX_IMAGE_SIZE } from "@/utils/sizesAllowed";
 
 const RemoveBGPage = () => {
   const [image, setImage] = useState<File | null>(null);
@@ -27,6 +28,19 @@ const RemoveBGPage = () => {
   const handleUploadImage = async () => {
     setLoading(true);
     try {
+      if (!image?.size) {
+        return;
+      }
+
+      if (image?.size > MAX_IMAGE_SIZE) {
+        toast({
+          variant: "destructive",
+          title: "Uh oh! The image is too large.",
+          description: "Please upload an image smaller than 10MB.",
+        });
+        return;
+      }
+
       toast({
         title: "Please wait till the image loads!",
         description: "This might take a few seconds.",
@@ -115,7 +129,7 @@ const RemoveBGPage = () => {
               <Loader2 className="animate-spin w-12 h-12" />
             </div>
           ) : (
-            <div className="max-w-full">
+            <div className="max-w-3xl">
               {cloudinaryImage && (
                 <CldImage
                   src={cloudinaryImage}
