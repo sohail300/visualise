@@ -6,8 +6,8 @@ import Link from "next/link";
 export default function HeroSection() {
   return (
     <section className="flex max-w-6xl mx-auto relative flex-col items-center justify-center px-4 min-h-screen">
-      <div className="absolute top-[15rem] md:top-[5rem] left-0 z-[-1] bg-gradient-to-t opacity-50 dark:opacity-100 from-primary to-purple-800/20 blur-[5em] w-[10rem] md:w-[10rem] h-[20rem] md:h-[60rem] rotate-[40deg]" />
-      <div className="absolute top-[15rem] md:top-[5rem] right-0 z-[-1] bg-gradient-to-t opacity-50 dark:opacity-100 from-primary to-purple-800/20 blur-[5em] w-[10rem] md:w-[10rem] h-[20rem] md:h-[60rem] -rotate-[40deg]" />
+      <div className="absolute top-[15rem] md:top-[5rem] left-0 z-[-1] bg-gradient-to-t opacity-50 dark:opacity-100 from-primary to-purple-800/20 blur-[5em] w-[10rem] md:w-[10rem] h-[20rem] md:h-[60rem] rotate-[40deg] max-w-screen" />
+      <div className="absolute top-[15rem] md:top-[5rem] right-0 z-[-1] bg-gradient-to-t opacity-50 dark:opacity-100 from-primary to-purple-800/20 blur-[5em] w-[10rem] md:w-[10rem] h-[20rem] md:h-[60rem] -rotate-[40deg] max-w-screen" />
 
       <div
         className="group relative rounded-full border border-neutral-800/80 bg-neutral-900 

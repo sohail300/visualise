@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import type React from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -38,7 +39,7 @@ const VideoPreviewsPage = () => {
     }
   };
 
-  const handleUploadVideo = async () => {
+  const handleUploadVideo = useCallback(async () => {
     setVideoUploading(true);
     setPreviewUrl(null);
     try {
@@ -50,7 +51,7 @@ const VideoPreviewsPage = () => {
         toast({
           variant: "destructive",
           title: "Uh oh! The video is too large.",
-          description: "Please upload an image smaller than 50MB.",
+          description: "Please upload a video smaller than 50MB.",
         });
         return;
       }
@@ -86,9 +87,9 @@ const VideoPreviewsPage = () => {
     } finally {
       setVideoUploading(false);
     }
-  };
+  }, [video, toast]);
 
-  function getPreviewUrl() {
+  const getPreviewUrl = useCallback(() => {
     setLoading(true);
     try {
       const url = getCldVideoUrl({
@@ -103,26 +104,24 @@ const VideoPreviewsPage = () => {
       console.log(error);
       toast({
         variant: "destructive",
-        title: "Uh oh! Something went wrong while transformingthe video.",
+        title: "Uh oh! Something went wrong while transforming the video.",
       });
     } finally {
       setLoading(false);
     }
-  }
+  }, [cloudinaryVideo, duration, maxClips, minClipLength, toast]);
 
   useEffect(() => {
     if (video) {
       handleUploadVideo();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [video]);
+  }, [video, handleUploadVideo]);
 
   useEffect(() => {
     if (cloudinaryVideo && duration && maxClips && minClipLength) {
       getPreviewUrl();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cloudinaryVideo, duration, maxClips, minClipLength]);
+  }, [cloudinaryVideo, duration, maxClips, minClipLength, getPreviewUrl]);
 
   const handleDownloadVideo = () => {
     if (!previewUrl) {
@@ -143,37 +142,39 @@ const VideoPreviewsPage = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen p-0 w-full">
-      <div className="space-y-4 p-6 border rounded-lg w-full">
-        <h1 className="text-xl font-semibold">Upload Video</h1>
+    <div className="flex flex-col min-h-screen w-full px-4 sm:px-6 md:px-8 mt-12 md:mt-0">
+      <div className="space-y-6 p-4 sm:p-6 border rounded-lg w-full ">
+        <h1 className="text-xl sm:text-2xl font-semibold">Upload Video</h1>
 
         {/* Video Upload Input */}
-        <Input
-          type="file"
-          accept="video/*"
-          onChange={handleVideoUpload}
-          className="cursor-pointer w-fit"
-        />
-        <p className="text-sm text-gray-500">Max size: 50MB</p>
+        <div className="flex flex-col space-y-2">
+          <Input
+            type="file"
+            accept="video/*"
+            onChange={handleVideoUpload}
+            className="cursor-pointer w-full lg:w-1/3 text-sm"
+          />
+          <p className="text-xs sm:text-sm text-gray-500">Max size: 50MB</p>
+        </div>
 
-        <div className=" w-full">
+        <div className="w-full">
           {videoUploading ? (
-            <div className=" w-full h-20 flex justify-center items-center">
-              <Loader2 className="animate-spin w-12 h-12" />
+            <div className="w-full h-40 flex justify-center items-center">
+              <Loader2 className="animate-spin w-8 h-8 sm:w-12 sm:h-12" />
             </div>
           ) : (
             <div className="max-w-full">
               {cloudinaryVideo && (
-                <div className="space-y-4 ">
+                <div className="space-y-4">
                   <Input
                     type="number"
                     placeholder="Enter Duration in seconds"
                     onChange={(e) => setDuration(Number(e.target.value))}
-                    className="cursor-pointer w-72"
+                    className="cursor-pointer w-full lg:w-1/3 sm:w-72"
                   />
 
                   <Select onValueChange={setMaxClips}>
-                    <SelectTrigger className="w-72">
+                    <SelectTrigger className="w-full lg:w-1/3 sm:w-72">
                       <SelectValue placeholder="Select Max Clips" />
                     </SelectTrigger>
                     <SelectContent>
@@ -186,7 +187,7 @@ const VideoPreviewsPage = () => {
                   </Select>
 
                   <Select onValueChange={setMinClipLength}>
-                    <SelectTrigger className="w-72">
+                    <SelectTrigger className="w-full lg:w-1/3 sm:w-72">
                       <SelectValue placeholder="Select Min Clip Length" />
                     </SelectTrigger>
                     <SelectContent>
@@ -203,13 +204,13 @@ const VideoPreviewsPage = () => {
           )}
         </div>
 
-        <div className=" w-full">
+        <div className="w-full">
           {loading ? (
-            <div className=" w-full h-20 flex justify-center items-center">
-              <Loader2 className="animate-spin w-12 h-12" />
+            <div className="w-full h-40 flex justify-center items-center">
+              <Loader2 className="animate-spin w-8 h-8 sm:w-12 sm:h-12" />
             </div>
           ) : (
-            <div className="max-w-3xl">
+            <div className="max-w-3xl mx-auto">
               {previewUrl && (
                 <video
                   src={previewUrl}
@@ -217,7 +218,7 @@ const VideoPreviewsPage = () => {
                   muted
                   loop
                   controls
-                  className="w-fit h-fit object-cover"
+                  className="w-full h-auto object-cover rounded-lg"
                 />
               )}
             </div>
@@ -225,13 +226,17 @@ const VideoPreviewsPage = () => {
         </div>
 
         {previewUrl && (
-          <Button
-            className="w-fit flex items-center gap-2 rounded-sm px-8"
-            onClick={handleDownloadVideo}
-          >
-            <Download className="h-5 w-5" />
-            Download Preview Video
-          </Button>
+          <div className="flex justify-start">
+            <Button
+              className="w-full sm:w-auto flex items-center gap-2 rounded-md px-4 py-2"
+              onClick={handleDownloadVideo}
+            >
+              <Download className="h-4 w-4 sm:h-5 sm:w-5" />
+              <span className="text-sm sm:text-base">
+                Download Preview Video
+              </span>
+            </Button>
+          </div>
         )}
       </div>
     </div>

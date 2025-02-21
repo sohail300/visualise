@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import type React from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Download, Loader2 } from "lucide-react";
@@ -25,7 +26,7 @@ const RemoveBGPage = () => {
     }
   };
 
-  const handleUploadImage = async () => {
+  const handleUploadImage = useCallback(async () => {
     setLoading(true);
     try {
       if (!image?.size) {
@@ -81,14 +82,13 @@ const RemoveBGPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [image, toast]);
 
   useEffect(() => {
     if (image) {
       handleUploadImage();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [image]);
+  }, [image, handleUploadImage]);
 
   const handleDownloadImage = () => {
     if (!imageRef.current) {
@@ -110,49 +110,57 @@ const RemoveBGPage = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen p-0 w-full">
-      <div className="space-y-4 p-6 border rounded-lg w-full">
-        <h1 className="text-xl font-semibold">Upload & Crop Image</h1>
+    <div className="flex flex-col min-h-screen w-full px-4 sm:px-6 md:px-8 mt-12 md:mt-0">
+      <div className="space-y-6 p-4 sm:p-6 border rounded-lg w-full ">
+        <h1 className="text-xl sm:text-2xl font-semibold">Remove Background</h1>
 
         {/* Image Upload Input */}
-        <Input
-          type="file"
-          accept="image/*"
-          onChange={handleImageUpload}
-          className="cursor-pointer w-fit"
-        />
-        <p className="text-sm text-gray-500">Max size: 25MB</p>
+        <div className="flex flex-col space-y-2">
+          <Input
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+            className="cursor-pointer w-full lg:w-1/3 text-sm"
+          />
+          <p className="text-xs sm:text-sm text-gray-500">Max size: 10MB</p>
+        </div>
 
-        <div className=" w-full">
+        <div className="w-full">
           {loading ? (
-            <div className=" w-full h-20 flex justify-center items-center">
-              <Loader2 className="animate-spin w-12 h-12" />
+            <div className="w-full h-40 flex justify-center items-center">
+              <Loader2 className="animate-spin w-8 h-8 sm:w-12 sm:h-12" />
             </div>
           ) : (
-            <div className="max-w-3xl">
+            <div className="max-w-full mx-auto">
               {cloudinaryImage && (
-                <CldImage
-                  src={cloudinaryImage}
-                  alt="image"
-                  width={250}
-                  height={100}
-                  removeBackground
-                  className="rounded-lg h-fit"
-                  ref={imageRef}
-                />
+                <div className="relative max-w-3xl overflow-hidden">
+                  <CldImage
+                    src={cloudinaryImage}
+                    alt="image"
+                    width={250}
+                    height={100}
+                    removeBackground
+                    className="rounded-lg w-full h-auto object-contain"
+                    ref={imageRef}
+                  />
+                </div>
               )}
             </div>
           )}
         </div>
 
         {cloudinaryImage && (
-          <Button
-            className="w-fit flex items-center gap-2 rounded-sm px-8"
-            onClick={handleDownloadImage}
-          >
-            <Download className="h-5 w-5" />
-            Download Cropped Image
-          </Button>
+          <div className="flex justify-start">
+            <Button
+              className="w-full sm:w-auto flex items-center gap-2 rounded-md px-4 py-2"
+              onClick={handleDownloadImage}
+            >
+              <Download className="h-4 w-4 sm:h-5 sm:w-5" />
+              <span className="text-sm sm:text-base">
+                Download Image without Background
+              </span>
+            </Button>
+          </div>
         )}
       </div>
     </div>

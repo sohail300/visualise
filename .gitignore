@@ -17,6 +17,8 @@
 /.next/
 /out/
 
+spreadsheet-keys.json
+
 # production
 /build
 
