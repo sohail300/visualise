@@ -24,7 +24,7 @@ const Demo = () => {
 
         <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16 mt-8 sm:mt-10 md:mt-12">
           <video
-            src="/product_demo.mp4"
+            src="https://res.cloudinary.com/dwuzfbivo/video/upload/v1740152786/visualise/static/product_demo_trveii.mp4"
             autoPlay
             muted
             loop
