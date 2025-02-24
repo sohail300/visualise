@@ -24,10 +24,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <Head>
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8916812543498250"
-        ></script>
+        <meta
+          name="google-adsense-account"
+          content="ca-pub-8916812543498250"
+        ></meta>
       </Head>
       <body className={`${manrope.variable} antialiased`}>
         {children}
