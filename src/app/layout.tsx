@@ -3,8 +3,7 @@ import { Manrope } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
-import Script from "next/script";
-import Head from "next/head";
+import AdScript from "@/components/AdScript";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -24,17 +23,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <Head>
-        <meta name="google-adsense-account" content="ca-pub-8916812543498250" />
-      </Head>
+      <AdScript pid="8916812543498250" />
       <body className={`${manrope.variable} antialiased`}>
-        <Script
-          id="adsbygoogle-init"
-          strategy="afterInteractive"
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8916812543498250"
-          crossOrigin="anonymous"
-        />
         {children}
         <Toaster />
         <Sonner />
