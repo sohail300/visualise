@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import Script from "next/script";
+import Head from "next/head";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -23,14 +24,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
+      <Head>
+        <meta name="google-adsense-account" content="ca-pub-8916812543498250" />
+      </Head>
+      <body className={`${manrope.variable} antialiased`}>
         <Script
+          id="adsbygoogle-init"
+          strategy="afterInteractive"
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8916812543498250"
           crossOrigin="anonymous"
         />
-      </head>
-      <body className={`${manrope.variable} antialiased`}>
         {children}
         <Toaster />
         <Sonner />
