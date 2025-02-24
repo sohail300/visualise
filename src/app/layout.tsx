@@ -23,11 +23,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <Script
-        async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8916812543498250"
-        crossOrigin="anonymous"
-      />
+      <head>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8916812543498250"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body className={`${manrope.variable} antialiased`}>
         {children}
         <Toaster />
