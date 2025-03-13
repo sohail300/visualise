@@ -23,11 +23,8 @@ const Demo = () => {
         </div>
 
         <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16 mt-8 sm:mt-10 md:mt-12">
-          <video
-            src="https://res.cloudinary.com/dwuzfbivo/video/upload/v1740152786/visualise/static/product_demo_trveii.mp4"
-            autoPlay
-            muted
-            loop
+          <img
+            src="https://res.cloudinary.com/dwuzfbivo/image/upload/v1741890319/visualise/static/product_demo_image.png"
             className="w-full lg:w-2/4 rounded-lg"
           />
 
