@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useEffect, useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -36,6 +36,11 @@ const VideoPreviewsPage = () => {
     const file = e.target.files?.[0] as File;
     if (file) {
       setVideo(file);
+      setCloudinaryVideo(null);
+      setPreviewUrl(null);
+      setDuration(null);
+      setMaxClips(null);
+      setMinClipLength(null);
     }
   };
 
@@ -111,17 +116,11 @@ const VideoPreviewsPage = () => {
     }
   }, [cloudinaryVideo, duration, maxClips, minClipLength, toast]);
 
-  useEffect(() => {
-    if (video) {
-      handleUploadVideo();
-    }
-  }, [video, handleUploadVideo]);
-
-  useEffect(() => {
-    if (cloudinaryVideo && duration && maxClips && minClipLength) {
-      getPreviewUrl();
-    }
-  }, [cloudinaryVideo, duration, maxClips, minClipLength, getPreviewUrl]);
+  const canGeneratePreview =
+    Boolean(cloudinaryVideo) &&
+    Boolean(duration) &&
+    Boolean(maxClips) &&
+    Boolean(minClipLength);
 
   const handleDownloadVideo = () => {
     if (!previewUrl) {
@@ -156,6 +155,20 @@ const VideoPreviewsPage = () => {
           />
           <p className="text-xs sm:text-sm text-gray-500">Max size: 50MB</p>
         </div>
+
+        <Button
+          type="button"
+          onClick={() => void handleUploadVideo()}
+          disabled={!video || videoUploading}
+          className="w-full lg:w-1/3 flex items-center justify-center gap-2 rounded-md px-4 py-2"
+        >
+          {videoUploading ? (
+            <Loader2 className="h-4 w-4 sm:h-5 sm:w-5 animate-spin" />
+          ) : null}
+          <span className="text-sm sm:text-base">
+            {videoUploading ? "Uploading…" : "Upload video"}
+          </span>
+        </Button>
 
         <div className="w-full">
           {videoUploading ? (
@@ -198,6 +211,20 @@ const VideoPreviewsPage = () => {
                       ))}
                     </SelectContent>
                   </Select>
+
+                  <Button
+                    type="button"
+                    onClick={() => getPreviewUrl()}
+                    disabled={!canGeneratePreview || loading}
+                    className="w-full lg:w-1/3 flex items-center justify-center gap-2 rounded-md px-4 py-2"
+                  >
+                    {loading ? (
+                      <Loader2 className="h-4 w-4 sm:h-5 sm:w-5 animate-spin" />
+                    ) : null}
+                    <span className="text-sm sm:text-base">
+                      {loading ? "Generating…" : "Generate preview"}
+                    </span>
+                  </Button>
                 </div>
               )}
             </div>

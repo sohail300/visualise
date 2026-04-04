@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -32,6 +32,7 @@ const FillPage = () => {
     console.log(file);
     if (file) {
       setImage(file);
+      setCloudinaryImage(null);
     }
   };
 
@@ -94,12 +95,6 @@ const FillPage = () => {
     }
   }, [image, toast]);
 
-  useEffect(() => {
-    if (image && selectedFormat) {
-      handleUploadImage();
-    }
-  }, [image, selectedFormat, handleUploadImage]);
-
   const handleDownloadImage = () => {
     if (!imageRef.current || !selectedFormat) {
       return;
@@ -150,6 +145,20 @@ const FillPage = () => {
             ))}
           </SelectContent>
         </Select>
+
+        <Button
+          type="button"
+          onClick={() => void handleUploadImage()}
+          disabled={!image || !selectedFormat || loading}
+          className="w-full lg:w-1/3 flex items-center justify-center gap-2 rounded-md px-4 py-2"
+        >
+          {loading ? (
+            <Loader2 className="h-4 w-4 sm:h-5 sm:w-5 animate-spin" />
+          ) : null}
+          <span className="text-sm sm:text-base">
+            {loading ? "Processing…" : "Process image"}
+          </span>
+        </Button>
 
         <div className="w-full">
           {loading ? (

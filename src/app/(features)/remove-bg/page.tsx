@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Download, Loader2 } from "lucide-react";
@@ -23,6 +23,7 @@ const RemoveBGPage = () => {
     console.log(file);
     if (file) {
       setImage(file);
+      setCloudinaryImage(null);
     }
   };
 
@@ -84,12 +85,6 @@ const RemoveBGPage = () => {
     }
   }, [image, toast]);
 
-  useEffect(() => {
-    if (image) {
-      handleUploadImage();
-    }
-  }, [image, handleUploadImage]);
-
   const handleDownloadImage = () => {
     if (!imageRef.current) {
       return;
@@ -124,6 +119,20 @@ const RemoveBGPage = () => {
           />
           <p className="text-xs sm:text-sm text-gray-500">Max size: 10MB</p>
         </div>
+
+        <Button
+          type="button"
+          onClick={() => void handleUploadImage()}
+          disabled={!image || loading}
+          className="w-full lg:w-1/3 flex items-center justify-center gap-2 rounded-md px-4 py-2"
+        >
+          {loading ? (
+            <Loader2 className="h-4 w-4 sm:h-5 sm:w-5 animate-spin" />
+          ) : null}
+          <span className="text-sm sm:text-base">
+            {loading ? "Processing…" : "Process image"}
+          </span>
+        </Button>
 
         <div className="w-full">
           {loading ? (
